@@ -9,10 +9,10 @@ public class VerificationPage {
         public VerificationPage() {
             codeField.shouldBe(visible);
         }
-        public DashboardPage validVerify (DataHelper.VerificationCode verificationCode){
+        public VerificationPage validVerify (DataHelper.VerificationCode verificationCode){
             codeField.setValue(verificationCode.getCode());
             verifyButton.click();
-            return new DashboardPage();
+            return new VerificationPage();
         }
     }
-}
+

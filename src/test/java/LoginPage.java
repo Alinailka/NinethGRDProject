@@ -1,17 +1,12 @@
-import org.junit.jupiter.api.Test;
-
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
-    @Test
-    void shouldTransferMoneyBetweenOwnCardsV1() {
-        open("http://localhost:9999");
-        var loginPage = new LoginPage();
-        // можно заменить на var loginPage = open("http://localhost:9999", LoginPageV1.class);
-        var authInfo = DataHelper.getAuthInfo();
-        var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        verificationPage.validVerify(verificationCode);  ...}
 
+        public VerificationPage validLogin (DataHelper.AuthInfo info){
+            $("[data-test-id=login] input").setValue(info.getLogin());
+            $("[data-test-id=password] input").setValue(info.getPassword());
+            $("[data-test-id=action-login]").click();
+            return new VerificationPage();
+        }
+    }
 
-}
