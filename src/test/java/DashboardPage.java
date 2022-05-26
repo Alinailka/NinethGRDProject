@@ -11,6 +11,22 @@ public class DashboardPage {
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
 
+    public ElementsCollection getCards(String id) {
+        return cards;
+    }
+
+    public void setCards(ElementsCollection cards) {
+        this.cards = cards;
+    }
+
+    public String getBalanceStart() {
+        return balanceStart;
+    }
+
+    public String getBalanceFinish() {
+        return balanceFinish;
+    }
+
     public DashboardPage() {
     }
 
