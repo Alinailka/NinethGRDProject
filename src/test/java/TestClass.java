@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestClass {
 
@@ -13,10 +14,10 @@ public class TestClass {
     void setup() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
-        }
+    }
 
     @Test
-    void shouldTransferMoneyBetweenOwnCardsV1() {
+    void validVerification() {
 
         var loginPage = new LoginPage();
         // можно заменить на var loginPage = open("http://localhost:9999", LoginPageV1.class);
@@ -24,11 +25,10 @@ public class TestClass {
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         verificationPage.validVerify(verificationCode);
-
-       }
+    }
 
     @Test
-    void shouldTransferMoneyBetweenOwnCardsV2() {
+    void shouldTransferMoneyBetweenOwnCards() {
 
         var loginPage = new LoginPage();
         // можно заменить на var loginPage = open("http://localhost:9999", LoginPageV1.class);
@@ -38,17 +38,16 @@ public class TestClass {
         verificationPage.validVerify(verificationCode);
 
         DashboardPage dashboardPage = new DashboardPage();
-        $(byText("Ваши карты")).shouldBe(Condition.visible);
-        $(".list__item div / ").click();
-        //$$("[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0']").find(exactText("Пополнить")).click();
-        //$x("//*[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0'] >[type=\"button\"]" ).click();
-      //  $("[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0']").click();
-       $("[data-test-id='amount'] input").setValue("1000");
-        $("[data-test-id='from'] input").setValue("5559 0000 0000 0001");
-        $("[data-test-id='action-transfer'] input").click();
-
-
-
+        var firstNumber = DataHelper.getFirstNumber();
+        var secondNumber = DataHelper.getSecondNumber();
+        int amount = 1000;
+        var expectedBalanceFirstCard = dashboardPage.getCardBalance(firstNumber) - amount;
+        var expectedBalanceSecondCard = dashboardPage.getCardBalance(secondNumber) + amount;
+        var transferPage = dashboardPage.selectCardToTransfer(secondNumber);
+        dashboardPage = transferPage.makeTransfer(String.valueOf(amount), firstNumber);
+        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstNumber);
+        var actualBalanceSecondCard = dashboardPage.getCardBalance(secondNumber);
+        assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
+        assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
     }
-
 }
