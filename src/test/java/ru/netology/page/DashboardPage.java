@@ -1,7 +1,8 @@
-import com.codeborne.selenide.Condition;
+package ru.netology.page;
+
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import lombok.val;
+import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
